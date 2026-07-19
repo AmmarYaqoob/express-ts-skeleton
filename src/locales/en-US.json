@@ -1,0 +1,406 @@
+{
+  "test": "this is the en-US locale",
+  "hello": "Hello",
+  "error": {
+    "elastic_search": {
+      "record_not_found": "Item not found in elastic search"
+    },
+    "invalid_language": "invalid language code provided",
+    "api_not_found": "API not found",
+    "api_forbidden": "Access forbidden",
+    "client": {
+      "candidate_not_allowed": "Not allowed to view this candidate"
+    },
+    "user": {
+      "user_inactive": "Your account access is restricted, please contact Administrator",
+      "already_exists": "User already exists",
+      "does_not_exist": "User does not exist",
+      "already_deleted": "User is already deleted",
+      "is_a_betts_user": "Betts user is not allowed to signup as candidate",
+      "invalid_additional_params": "Invalid additional signup params provided",
+      "first_name_required": "First name cannot be empty",
+      "last_name_required": "Last name cannot be empty",
+      "phone_required": "Phone number cannot be empty",
+      "not_authorized_for_searching": "This user is not authorized to perform searching"
+    },
+    "betts": {
+      "user_not_found": "Betts user not found",
+      "user_already_created'": "Betts user already created",
+      "user_inactive": "Your account access is restricted, please contact Administrator",
+      "not_allowed_as_social": "You cannot continue signup using social account, please use email/password signup instead"
+    },
+    "candidate": {
+      "not_found": "Candidate not found",
+      "cannot_update_email": "Cannot update email of signed up candidate.",
+      "invalid_verify_code": "Invalid verification code!",
+      "cityId_required": "Location cannot be empty",
+      "stateId_required": "Location can notbe empty",
+      "linkedinUrl_required": "Linkedin URL cannot be empty",
+      "positionCategoryId_required": "Position Category cannot be empty",
+      "desiredBaseSalary_required": "Target Base Salary cannot be empty",
+      "provide_arguments": "Please provided arguments",
+      "invalid_json": "Invalid JSON",
+      "view_limit_not_found": "Candidate cards or profile view limits are not defined for your organization. Please contact our customer success representative for further assistance.",
+      "cards_view_limit_reached": "Your organization has reached the limit for the number of candidate cards that can be viewed in a 24 hour period. The contact information for your customer success representative is available on your home screen if you have any questions.",
+      "profile_view_limit_reached": "Your organization has reached the limit for the number of candidate profiles that can be viewed in a 24 hour period. The contact information for your customer success representative is available on your home screen if you have any questions.",
+      "invalid_search_status": "Invalid search status provided",
+      "cannot_restore": "You cannot restore this account now"
+    },
+    "candidate_skill": {
+      "already_exists": "Skill already exists",
+      "cannot_add_more_skills": "Cannot add more than 25 skills",
+      "not_found": "Skill not found"
+    },
+    "candidate_work_experience": {
+      "not_found": "Candidate work experience not found, Invalid id",
+      "cannot_add_more_work_experiences": "Cannot add more work experiences",
+      "only_one_in_progress": "Only one job can be selected as current work experience",
+      "invalid_from_date": "Invalid from date",
+      "invalid_to_date": "Invalid to date",
+      "adding_details_against_desired_position_not_allowed": "Adding details against this position is not allowed"
+    },
+    "candidate_education": {
+      "not_found": "Candidate work experience not found, Invalid id",
+      "cannot_add_more_education": "Cannot add more educations",
+      "degree_id_not_found": "Degree id not found",
+      "field_of_study_id_not_found": "Field of study id not found",
+      "only_one_hightlight": "Only one education can be marked as highlighted"
+    },
+    "candidate_portfolio": {
+      "not_found": "Candidate portfolio not found, Invalid id",
+      "cannot_add_more_portfolios": "Cannot add more portfolios",
+      "portfolio_required": "Please provide either a valid URL or upload a file"
+    },
+    "candidate_resume": {
+      "invalid_resume_key": "Invalid resume key",
+      "invalid_resume_data": "Invalid resume data",
+      "parsed_error": "Resume has an error when parsing",
+      "not_found": "Resume not found",
+      "data_not_parsed_yet": "Resume parsing in progress. Please wait",
+      "parse_has_error": "Resume parsing failed",
+      "mandatory_field_not_parsed": "Mandatory fields not parsed from resume",
+      "first_name_not_parsed": "First name is failed to parse",
+      "file_invalid": "the json file provided is invalid and does not contain either contactId or contactDocumentId",
+      "key_required": "provide either candidate resume key or salesforce resume key"
+    },
+    "feedback": {
+      "not_inserted": "feedback not inserted",
+      "feedback_limit_exceeded": "feedback limit exceeded"
+    },
+    "forgot_password": {
+      "cannot_proceed_external_provider": "Cannot reset password for external provider user",
+      "account_access_is_restricted": "Your account access is restricted, please contact Administrator",
+      "multiple_account": "Something bad happened with your account, please contact administrator"
+    },
+    "city": {
+      "not_found": "City not found",
+      "location_required": "Location cannot be empty"
+    },
+    "desired_position": {
+      "not_belongs_to_position_category": "Desired position does not belong to position category",
+      "desired_position_required": "Desired Position cannot be empty"
+    },
+    "email": {
+      "not_found": "Email template not found"
+    },
+    "file": {
+      "not_found": "File not found",
+      "file_not_owned_by_user": "File is not owned by the user"
+    },
+    "verify_new_password": {
+      "hash_is_invalid": "Invalid hash"
+    },
+    "change_user_detail": {
+      "invalid_cognito_id": "Invalid cognito id"
+    },
+    "import_data": {
+      "empty_csv_file": "CSV file is empty",
+      "maximum_100_records_are_allowed": "CSV file should contain max 100 records",
+      "must_contain_headers": "CSV file must have valid headers",
+      "empty": "Empty request not supported",
+      "max_file_100mb": "File should be less than 100 mb."
+    },
+    "verify_hash": {
+      "invalid_forget_password_hash": "The link you have used to perform this action is no longer valid, Please generate new link via forgot password flow.",
+      "invalid": "Invalid link!"
+    },
+    "verify_email": {
+      "user_not_found": "User with this email address does not exist"
+    },
+    "job_candidate_stage": {
+      "not_found": "Job Candidate Stage not found",
+      "already_submitted": "Candidate has already been submitted to this job",
+      "already_shortlisted": "Candidate has already been shortlisted in this job",
+      "already_hidden": "Candidate has already been hidden from search results",
+      "not_shortlisted": "Candidate is not shortlisted in this job",
+      "not_associated": "Candidate is not associated with this job",
+      "candidates_limit_exceeded": "Submitted candidates limit exceeded",
+      "jobs_limit_exceeded": "Submitted jobs limit exceeded",
+      "shortlist_status_required": "Shortlist status is required",
+      "unable_unreject": "Stage is not rejected, Unable to un-reject"
+    },
+    "ats": {
+      "not_found": "ATS Not found",
+      "not_active": "Invalid ATS",
+      "candidate_already_exists_on_ats": "Candidate already exists on ATS",
+      "not_responding": "ATS is not responsding at the moment, please try later",
+      "unauthorize": "Invalid ATS key",
+      "forbidden": "Check permission of ATS key, No access found for the {resource} resource",
+      "invalid_greenhouse_event": "Invalid greenhouse webhook event provided",
+      "interview_id_not_found": "Interview id not provided",
+      "job_not_found": "Job does not exist on ATS",
+      "feedback_not_found": "ATS Feedback not found",
+      "candidate_not_pushed": "Candidate is not pushed, Please try again later.",
+      "candidate_already_pushed": "Candidate has already been pushed to this job",
+      "candidate_stage_not_update": "Candidate stage is not updated, Please try again later."
+    },
+    "ats_feedback": {
+      "already_exist": "Feedback already submitted"
+    },
+    "organization_ats": {
+      "not_exist": "No organization ats found",
+      "already_exist": "Organization already exist"
+    },
+    "client_webhook": {
+      "ats_not_found": "Invalid ats",
+      "invalid_hash": "Invalid webhook indentifier",
+      "payload_not_found": "Empty request not allowed",
+      "invalid_signation": "Invalid signature",
+      "organization_ats_webhookSecretKey_not_found": "Webhook secret not implemented",
+      "no_stage_found": "Candidate submittal stage not found",
+      "no_submittal_stage_found": "Latest stage should be submittal"
+    },
+    "joi": {
+      "email_must be a string": "Email is not valid",
+      "linkedInProfileUrl_invalidurl": "linkedin profile url is invalid",
+      "mediaUrl_invalidUrl": "Media url is invalid",
+      "url_invalidUrl": "Portfolio url is invalid",
+      "phone_invalid": "phone number is invalid",
+      "key_is_required": "Key is required",
+      "cityId_must be a number": "City Id must be a number",
+      "email_not_allowed_empty": "Email is not allowed to be empty",
+      "email_must be a valid email": "Email must be a valid email address",
+      "cognitoId_not_allowed_empty": "Cognito Id is not allowed to be empty",
+      "cognitoId_must be a valid GUID": "Cognito Id must be a valid UUID",
+      "title_not_allowed_empty": "Title not allowed to be empty",
+      "title_length must be less than or equal to 250 characters long": "Title must not be greater than 250 characters",
+      "company_not_allowed_empty": "Company not allowed to be empty",
+      "company_length must be less than or equal to 250 characters long": "Company must not be greater than 250 characters",
+      "school_not_allowed_empty": "School not allowed to be empty",
+      "school_length must be less than or equal to 250 characters long": "School name must not be greater than 250 characters",
+      "degreeId_is_required": "Degree id is required",
+      "degree_not_allowed_empty": "Degree not allowed to be empty",
+      "degreeId_must_be_number": "Degree id must be a number",
+      "degree_length must be less than or equal to 250 characters long": "Degree must not be greater than 250 characters",
+      "degree_invalid_characters": "Degree has invalid characters",
+      "fieldOfStudyId_is_required": "field of study id is required",
+      "fieldOfStudyId_not_allowed_empty": "Field of study not allowed to be empty",
+      "fieldOfStudyId_must_be_number": "Field of study must be a number",
+      "fieldOfStudy_invalid_characters": "Field of study has invalid characters",
+      "toDate_must_be_greater": "To date must be greater than or equal to from date",
+      "fromDate_invalid": "Invalid From Date Format",
+      "toDate_invalid": "Invalid To Date Format",
+      "fieldOfStudy_must_be_string": "Field of study must be a string",
+      "skill_name_max": "Skill name length must be less than or equal to 100 characters long",
+      "companies_settings_must_be_unique": "Company settings must be unique",
+      "salary_invalid": "Salary offered must be atleast 5 digits and less then 16 digits",
+      "baseSalaryLow_must_be_greater": "Base Salary must be greater than or equal to 10k",
+      "baseSalaryHigh_must_be_greater": "Base Salary must be greater than or equal to 10k",
+      "modifiedSince_must_be_valid_date": "modifiedSince must be a valid date",
+      "days_is_required": "Days is required",
+      "days_must be a number": "Days must be a number",
+      "days_must be less than or equal to 100": "Days must be less than or equal to 100",
+      "days_must be larger than or equal to 1": "Days must be larger than or equal to 1",
+      "event_is_required": "Event is required",
+      "attributes_is_required": "Attributes is required",
+      "skill": {
+        "name_invalid_characters": "skill name has invalid characters",
+        "name_is_required": "skill name is required"
+      },
+      "sortBy_must be one of [id, value, defaultSort]": "Invalid sort by value",
+      "lov": {
+        "parentKey_must be one of [gender, maritalStatus, positionCategory, position]": "parent key must be one of [gender, maritalStatus, positionCategory, position]",
+        "parentKeyId_is_required": "parent key id is required",
+        "key_must be one of [gender, maritalStatus, positionCategory, position]": "key must be one of [maritalStatus, gender, position, positionCategory]"
+      },
+      "file": {
+        "size_must be less than 10485760": "size must be less than 10mb",
+        "size_2mb_must be less than 2097152": "size must be less than 2mb",
+        "size_5mb_must be less than 5242880": "size must be less than 5mb",
+        "type_is_required": "type is required",
+        "temp_is_required": "file is required",
+        "type_must be one of [resume]": "type must be one of [resume, profilePicture, portfolioThumbnail, organizationLogo, portfolioFile]",
+        "temp_must be an object": "Only 1 file is allowed"
+      },
+      "media": {
+        "invalid_key": "Media stream key is invalid",
+        "not_completed": "Media stream is not ready yet",
+        "cannot_remove": "You are not authorize to remove media"
+      }
+    },
+    "query_engine": {
+      "unauthorized_insertion": "You are not authorized to perform this insertion action",
+      "unauthorized_updation": "You are not authorized to perform this updation action",
+      "unauthorized_selection": "You are not authorized to perform this selection action"
+    },
+    "public_url": {
+      "not_found": "Invalid Link",
+      "url_expired": "This url has expired"
+    },
+    "search_filters": {
+      "saved_filter_not_exists": "Filter does not exist",
+      "must_provide_arguments": "You must either provide filters or searchText",
+      "max_limit_reached": "Max limit of saved filters reached",
+      "same_name_public_filter_exists": "This filter name has already been taken. Please select a unique name.",
+      "same_name_filter_exists_for_user": "You already have a saved filter with this name. Please select a unique name."
+    },
+    "organization": {
+      "not_found": "Invalid organization id provided",
+      "id": "organization id not found",
+      "already_deleted": "Organization is already deleted",
+      "already_exists": "Organization already exists",
+      "synonym_mapping_exists": "organization synonyms mapping already exist",
+      "delete_not_allowed_salesforceId": "Unable to delete organization because organization exists on salesforce.",
+      "delete_not_allowed_active_usage": "Unable to delete organization because organization is currently being used in the system.",
+      "merge_not_allowed_salesforceId": "Unable to merge organization because organization exists on salesforce.",
+      "name_exists": "Organization Name or Website already exist"
+    },
+    "sync": {
+      "invalid_type": "Invalid sync type provided"
+    },
+    "job": {
+      "not_found": "Job not found",
+      "stage_type_and_status_invalid": "Invalid stage type or stage status provided",
+      "cannot_update_stage_status": "Cannot update job stage status",
+      "invalid_stage_type": "Invalid stage type provided",
+      "additional_info_questions_not_found": "Invalid questions provided for additional information",
+      "stage_already_assigned": "Candidate already assigned in this stage",
+      "job_candidate_stage_not_synced_yet": "Stage not synced to salesforce yet. Please try again after some time",
+      "closed": "this job has been closed",
+      "interview_request_already_sent": "Interview request already sent to this candidate",
+      "interview_request_not_found": "Interview request not found",
+      "opportunity_not_pitched": "No Interview Request exist",
+      "already_responded_interview": "You have already responded to this interview request. Would you like to login to see the current status?",
+      "rejection_notes_required": "Please provide rejection notes",
+      "field_edit_not_allowed": "You are not allowed to edit this field.",
+      "status_change_not_allowed": "You are not allowed to change status",
+      "job_edit_not_allowed": "You are not allowed to edit this job.",
+      "cannot_create_schedule": "Cannot create/update schedule",
+      "cannot_update_stage_current_status": "Cannot update job stage current status",
+      "stage_status_not_found": "Stage status not found",
+      "job_status_not_found": "Job status not found",
+      "snippet_not_available": "Job snippet not available",
+      "invalid_candidate_job_status": "Invalid candidate job status"
+    },
+    "workExperienceTitle": {
+      "new_value_Exists": "New job title value already exists"
+    },
+    "job_title_position_mappings": {
+      "already_exists": "job title position mapping already exists"
+    },
+    "contact": {
+      "duplicate": "More than one candidate is exist in salesforce with the same email"
+    },
+    "salesforce": {
+      "contact": {
+        "not_found": "salesforce contact not found",
+        "multiple_record_exist": "Multiple records with same email exist on salesforce"
+      }
+    },
+    "schedule": {
+      "not_found": "Schedule not found",
+      "edit_not_allowed": "You are not allowed to edit this schedule",
+      "delete_not_allowed": "You are not allowed to delete this schedule",
+      "calendarInviteRecipients_is_required": "Calendar Invite Recipients cannot be empty",
+      "title_required": "Title cannot be empty",
+      "interviewer_required": "Interviewers cannot be empty",
+      "past_date_not_allowed": "Interview cannot be scheduled in past",
+      "past_date_open_in_google": "Past date interviews can not be opened in google",
+      "unable_to_create": "Unable to create interview schedule. Please check your calendar integration and try again.",
+      "unable_to_update": "Unable to update interview schedule. Please check your calendar integration and try again.",
+      "verify_account": "Unable to create test event. Please log into microsoft outlook and verify your account",
+      "zoom_authentication": "Unable to add a Zoom link to the meeting invite becasue of an authentication error. Please verify Zoom account integration to avoid future issues.",
+      "zoom_unable_to_communicate": "We are unable to communicate with Zoom at this time. Please update this meeting with a Zoom link.",
+      "zoom_bad_request": "Unable to add a Zoom link to the meeting invite. Please update this meeting with a Zoom link and verify your Zoom integration to avoid future issues.",
+      "zoom_not_found": "Unable to find the Zoom meeting. Either you are not permitted to access it or it has been deleted",
+      "unable_to_delete_meeting": "Unable to delete the meeting invite. Either you are not permitted to delete it, or it has already been deleted. Please check your meeting integration and try again."
+    },
+    "job_candidate_activity_history": {
+      "not_found": "Job Activity History not found",
+      "update_not_allowed": "You are not allowed to update this activity history"
+    },
+    "calendar_integration": {
+      "not_found": "Calendar integration not found.",
+      "no_active_integration": "No active calendar integration found.",
+      "already_exists": "Calendar integration with this account already exists.",
+      "google": {
+        "invalid_request": "Unable to perform action on Google, Invalid Request",
+        "not_found": "Unable to perform action on Google. The id you are performing action on doesn't exist or removed",
+        "invalid_grant": "Unable to perform action on Google. Please check your calendar integration and try again",
+        "unable_to_communicate": "Unable to communicate with Google. Please try again later"
+      },
+      "office": {
+        "not_found": "Unable to perform action on Office 365. The id you are performing action on doesn't exist or removed",
+        "unauthenticated": "Unable to perform action on Office 365. Please check your calendar integration and try again",
+        "bad_request": "Unable to perform action on Office 365, Invalid Request",
+        "unable_to_communicate": "Unable to communicate with Office 365. Please try again later"
+      }
+    },
+    "meeting_integration": {
+      "not_found": "Meeting integration not found.",
+      "no_active_integration": "No active meeting integration found.",
+      "already_exists": "Meeting integration with this account already exists."
+    },
+    "job_candidate_message": {
+      "not_found": "Message not found",
+      "cannot_be_sent_to_candidate": "Message cannot be sent to candidate"
+    },
+    "settings": {
+      "visibility_already_exists": "Your profile is already hidden from this company.",
+      "visibility_not_found": "Company visibility not found.",
+      "cannot_add_more_companies": "Cannot add more companies"
+    },
+    "calendar_event": {
+      "not_found": "Calendar event not found.",
+      "already_available": "Candidate already has availability timeslots in calendar"
+    },
+    "recommendation_request": {
+      "not_found": "Invalid recommendation request"
+    },
+    "data_extraction": {
+      "not_found": "Entity not found",
+      "status_must_be_success": "Entity status must be success to process this step"
+    }
+  },
+  "redis": {
+    "count_not_connect": "could not connect to redis"
+  },
+  "communication_preference": {
+    "not_found": "communication preference not found",
+    "text_not_allowed": "You have previously blocked text messages from Betts Connect.\nTo resubscribe to text messages from Betts Connect, text START"
+  },
+  "time_zone": {
+    "not_found": "Time zone not found"
+  },
+  "s3": {
+    "keys": {
+      "array": {
+        "invalid": "keys array must have at least one item"
+      }
+    },
+    "bucket": {
+      "name": {
+        "invalid": "bucket name must contain exactly on /"
+      }
+    }
+  },
+  "image": {
+    "download": {
+      "contentType": {
+        "missing": "Url missing content-type header",
+        "not_supported": "Url content-type must be one of [image/jpeg, image/jpg, image/png]"
+      },
+      "failed": "Can not download image from url"
+    }
+  }
+}
