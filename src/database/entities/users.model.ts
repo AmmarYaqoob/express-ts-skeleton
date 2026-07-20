@@ -7,14 +7,19 @@ import {
   Default,
   AllowNull,
   Unique,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { Role } from './roles.model';
+import { UserDto } from '../../dto/users.dto';
 
 @Table({
   tableName: 'users',
   timestamps: true,
   paranoid: true,
 })
-export class User extends Model<User> {
+// export class User extends Model<User> {
+export class User extends Model<User, UserDto> implements User {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
@@ -72,4 +77,12 @@ export class User extends Model<User> {
   @AllowNull(true)
   @Column(DataType.STRING(255))
   declare lockedReason?: string;
+
+  @ForeignKey(() => Role)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  declare roleId: number;
+
+  @BelongsTo(() => Role)
+  declare role: Role;
 }
