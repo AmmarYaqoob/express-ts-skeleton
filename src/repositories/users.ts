@@ -3,42 +3,62 @@ import { UserDto } from '../dto/users.dto';
 
 class UserRepository {
   async findAll(): Promise<User[]> {
-    return User.findAll();
+    return User.findAll({ include: ['role'] });
   }
 
   async findById(id: string): Promise<User | null> {
-    return User.findByPk(id);
+    return User.findByPk(id, { include: ['role'] });
   }
 
   async findByEmail(email: string): Promise<User | null> {
     return User.findOne({ where: { email } });
   }
 
-  async create(payload: UserDto): Promise<User> {
-    return User.create(payload);
+  async create(data: UserDto): Promise<User> {
+    return User.create(data);
   }
 
-  async update(id: string, payload: UserDto): Promise<User | null> {
+  async update(
+    id: string,
+    data: Partial<UserDto>,
+  ): Promise<User | null> {
     const user = await this.findById(id);
 
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
-    return user.update(payload);
+    return user.update(data);
   }
 
   async delete(id: string): Promise<boolean> {
     const user = await this.findById(id);
-
-    if (!user) {
-      return false;
-    }
-
+    if (!user) return false;
     await user.destroy();
-
     return true;
   }
+
+  async login(email: string, password: string): Promise<User | null> {
+    return User.findOne({
+      where: {
+        email: email,
+        password: password,
+        isActive: true,
+      },
+    });
+  };
+
+  async save(users: any) {
+    await users.update();
+  };
+
+  async userVerfication(user: any) {
+    return User.findOne({
+      where: {
+        isVerified: false,
+        email: user.email,
+        accountVerificationHash: user.accountVerificationHash,
+      },
+    });
+  };
 }
 
 export default new UserRepository();
