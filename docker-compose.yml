@@ -1,0 +1,25 @@
+services:
+  app:
+    container_name: express-skeleton
+    networks:
+      - nodejs101
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - './.env'
+    volumes:
+      - './config:/app/config'
+      - './src:/app/src'
+      - './database:/app/database'
+      - './dist:/app/dist'
+    ports:
+      - 3000:3000
+    command:
+      - npm
+      - run
+      - start:watch
+
+networks:
+  nodejs101:
+    name: express-skeleton

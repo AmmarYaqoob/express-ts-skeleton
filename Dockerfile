@@ -1,0 +1,15 @@
+FROM node:14.18.1-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+
+# ENTRYPOINT ["./entrypoint.sh"]
+CMD ["npm", "run", "start"]

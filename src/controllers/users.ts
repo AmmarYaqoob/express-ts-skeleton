@@ -14,6 +14,28 @@ class UserController {
     },
   );
 
+  public signUp = asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      res.locals.data = userService.signUp;
+      next();
+    },
+  );
+
+  public verfication = asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      res.locals.data = userService.verfication;
+      next();
+    },
+  );
+
   getAll = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     res.locals.data = await userService.getAll();
     next();

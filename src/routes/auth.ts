@@ -8,12 +8,12 @@ let prefix =  `${config.baseURL}/auth`;
 const router = Router();
 router.post('/login', ctrl.login, responseMiddleware);
 router.post('/signup', ctrl.signUp);
-router.post('/verifyuserhash', ctrl.verifyUserHash);
+// router.post('/verifyuserhash', ctrl.verifyUserHash);
 router.post('/verify', ctrl.verfication);
-router.post('/forgetpassword', ctrl.forgetPassword);
-router.post('/verifyforgethash', ctrl.verifyForgetHash);
-router.post('/resetpassword', ctrl.resetPassword);
-router.post('/sociallogin', ctrl.socialLogin);
+// router.post('/forgetpassword', ctrl.forgetPassword);
+// router.post('/verifyforgethash', ctrl.verifyForgetHash);
+// router.post('/resetpassword', ctrl.resetPassword);
+// router.post('/sociallogin', ctrl.socialLogin);
 
 export default {
   path: prefix,
