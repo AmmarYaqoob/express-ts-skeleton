@@ -1,17 +1,28 @@
-import { compare, genSalt, hash } from "bcryptjs";
+import crypto from 'crypto'
 
-export const encrypt = async (value: string): Promise<string> => {
-    const salt = await genSalt(10);
-    return hash(value, salt);
+const algorithm = "aes-256-cbc";
+const secretKey = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+
+export const encrypt = (text: string) => {
+    const cipher = crypto.createCipheriv(
+        algorithm,
+        secretKey,
+        iv
+    );
+    let encrypted = cipher.update(text, "utf8", "hex");
+    encrypted += cipher.final("hex");
+    return encrypted;
 };
 
-export const compareHash = async (
-    value: string,
-    hashValue: string
-): Promise<boolean> => {
-    try {
-        return await compare(value, hashValue);
-    } catch {
-        return false;
-    }
+
+export const decrypt = (encryptedText: string) => {
+    const decipher = crypto.createDecipheriv(
+        algorithm,
+        secretKey,
+        iv
+    );
+    let decrypted = decipher.update(encryptedText, "hex", "utf8");
+    decrypted += decipher.final("utf8");
+    return decrypted;
 };

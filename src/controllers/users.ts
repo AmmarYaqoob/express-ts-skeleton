@@ -9,7 +9,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = `login`;
+      res.locals.data = userService.login;
       next();
     },
   );

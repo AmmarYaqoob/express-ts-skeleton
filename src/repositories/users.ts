@@ -47,7 +47,7 @@ class UserRepository {
   };
 
   async save(users: any) {
-    await users.update();
+    return await users.update();
   };
 
   async userVerfication(user: any) {
