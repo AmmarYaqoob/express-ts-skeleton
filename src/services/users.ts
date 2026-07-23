@@ -42,7 +42,7 @@ class UserService {
             userData.accountVerificationHash = hash;
             let userDate = await userRepo.save(userData);
             let userHash = encrypt(JSON.stringify(userDate.id) + config.secret_key);
-            let link = `${config.baseURL}/sign-in?user=${encodeURIComponent(
+            let link = `${config.api.baseURL}/sign-in?user=${encodeURIComponent(
                 userHash,
             )}&key=${encodeURIComponent(userData.accountVerificationHash)}`;
 
@@ -101,7 +101,7 @@ class UserService {
         let key: string = (Math.floor(1000 + Math.random() * 9000).toString() + config.secret_key);
         toSaveUser.accountVerificationHash = encrypt(key);
         let userHash = encrypt(JSON.stringify(userDate.id) + config.secret_key).toString();
-        let link = `${config.baseURL}/sign-in?user=${encodeURIComponent(userHash)
+        let link = `${config.api.baseURL}/sign-in?user=${encodeURIComponent(userHash)
             }&key=${encodeURIComponent(toSaveUser.accountVerificationHash)
             }`;
 
@@ -179,7 +179,7 @@ class UserService {
         hashing.createdBy = date;
         hashing.updatedAt = date;
         hashing.updatedBy = date;
-        let link = `${config.baseURL}/forgot-password?user=${encodeURIComponent(
+        let link = `${config.api.baseURL}/forgot-password?user=${encodeURIComponent(
             ciphertext,
         )}&key=${encodeURIComponent(hashing.hash)}`;
 
@@ -201,7 +201,7 @@ class UserService {
     };
 
     async verifyForgetHash(user: UserDto) {
-        var originalText = decrypt(user.userHash + config.baseURL);
+        var originalText = decrypt(user.userHash + config.api.baseURL);
 
         let checkUser = await userRepo.findById(originalText);
         if (!checkUser) {
