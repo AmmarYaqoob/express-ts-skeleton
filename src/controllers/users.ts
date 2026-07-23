@@ -25,6 +25,17 @@ class UserController {
     },
   );
 
+  public verifyUserHash = asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      res.locals.data = userService.verifyUserHash;
+      next();
+    },
+  );
+
   public verfication = asyncHandler(
     async (
       req: Request,
@@ -32,6 +43,39 @@ class UserController {
       next: NextFunction,
     ) => {
       res.locals.data = userService.verfication;
+      next();
+    },
+  );
+
+  public forgetPassword = asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      res.locals.data = userService.forgetPassword;
+      next();
+    },
+  );
+
+  public verifyForgetHash = asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      res.locals.data = userService.verifyForgetHash;
+      next();
+    },
+  );
+
+  public resetPassword = asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      res.locals.data = userService.resetPassword;
       next();
     },
   );

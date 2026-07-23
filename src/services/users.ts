@@ -1,13 +1,15 @@
 import * as joi from 'joi';
 import config from '../config/index';
 import AppError from '../middlewares/apperror';
-import { decrypt, encrypt } from '../utils/encryptdecrypt';
+import { decrypt, encrypt, hash } from '../utils/encryptdecrypt';
 import { IEmail } from '../interfaces/email';
 import { sendMail } from './email';
 import { StatusCodes } from 'http-status-codes';
-import userRepo from '../repositories/users';
+import userRepo from '../repositories/users.repository';
 import { UserDto } from '../dto/users.dto';
 import { authConstant } from '../constants/authConstant';
+import { Hashing } from '../database/entities/hashing.model'
+import hashRepo from '../repositories/hash.repository'
 
 class UserService {
     async login(user: UserDto) {
@@ -40,7 +42,7 @@ class UserService {
             userData.accountVerificationHash = hash;
             let userDate = await userRepo.save(userData);
             let userHash = encrypt(JSON.stringify(userDate.id) + config.secret_key);
-            let link = `${config.url}/sign-in?user=${encodeURIComponent(
+            let link = `${config.baseURL}/sign-in?user=${encodeURIComponent(
                 userHash,
             )}&key=${encodeURIComponent(userData.accountVerificationHash)}`;
 
@@ -96,12 +98,12 @@ class UserService {
         });
 
         let userDate = await userRepo.save(toSaveUser);
-        let key: string = (Math.floor(1000 + Math.random() * 9000).toString() + 'secret_key');
+        let key: string = (Math.floor(1000 + Math.random() * 9000).toString() + config.secret_key);
         toSaveUser.accountVerificationHash = encrypt(key);
-        let userHash = encrypt(JSON.stringify(userDate.id) + 'secret_key').toString();
-        let link = `http://localhost:4200/sign-in?user=${encodeURIComponent(
-            userHash,
-        )}&key=${encodeURIComponent(toSaveUser.accountVerificationHash)}`;
+        let userHash = encrypt(JSON.stringify(userDate.id) + config.secret_key).toString();
+        let link = `${config.baseURL}/sign-in?user=${encodeURIComponent(userHash)
+            }&key=${encodeURIComponent(toSaveUser.accountVerificationHash)
+            }`;
 
         const email: IEmail = <IEmail>{
             isText: false,
@@ -116,21 +118,19 @@ class UserService {
         };
     }
 
-    // async verifyUserHash(user: UserDto) {
-    //     var bytes = CryptoJS.AES.decrypt(user.userHash, 'secret_key');
-    //     var originalText = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    async verifyUserHash(user: UserDto) {
+        var originalText = decrypt(user.userHash + config.secret_key);
+        let checkUser = await userRepo.findById(originalText);
+        if (!checkUser) {
+            return { success: false, message: authConstant.notExists };
+        }
+        checkUser.isVerified = true;
+        await userRepo.save(checkUser);
 
-    //     let checkUser = await userRepo.findById(originalText);
-    //     if (!checkUser) {
-    //         return { success: false, message: authConstant.notExists };
-    //     }
-    //     checkUser.isVerified = true;
-    //     await userRepo.save(checkUser);
-
-    //     return {
-    //         message: authConstant.verified,
-    //     };
-    // };
+        return {
+            message: authConstant.verified,
+        };
+    };
 
     async verfication(user: UserDto) {
         const scheme = joi.object({
@@ -155,78 +155,76 @@ class UserService {
         };
     };
 
-    // async forgetPassword(user: UserDto) {
-    //     const scheme = joi.object({
-    //         email: joi.string().required(),
-    //     });
-    //     await scheme.validateAsync({
-    //         email: user.email,
-    //     });
-    //     let checkUser = await userRepo.findByEmail(user.email);
-    //     if (!checkUser) {
-    //         return { success: false, message: authConstant.notExists };
-    //     }
-    //     const hashing = new Hashing();
-    //     var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(checkUser.id), 'secret_key').toString();
+    async forgetPassword(user: UserDto) {
+        const scheme = joi.object({
+            email: joi.string().required(),
+        });
+        await scheme.validateAsync({
+            email: user.email,
+        });
+        let checkUser = await userRepo.findByEmail(user.email);
+        if (!checkUser) {
+            return { success: false, message: authConstant.notExists };
+        }
 
-    //     let key: string = Math.floor(1000 + Math.random() * 9000).toString();
-    //     hashing.hash = CryptoJS.SHA256(key).toString();
-    //     hashing.type = ciphertext;
-    //     let date = new Date();
-    //     hashing.createdAt = date;
-    //     hashing.expiredAt = new Date(date.getTime() + 60 * 24 * 60000);
-    //     hashing.createdBy = date;
-    //     hashing.updatedAt = date;
-    //     hashing.updatedBy = date;
-    //     let link = `http://localhost:4200/forgot-password?user=${encodeURIComponent(
-    //         ciphertext,
-    //     )}&key=${encodeURIComponent(hashing.hash)}`;
+        const hashing = new Hashing();
+        var ciphertext = encrypt(JSON.stringify(checkUser.id) + config.secret_key);
 
-    //     const email: IEmail = <IEmail>{
-    //         isText: false,
-    //         subject: authConstant.resetPassword,
-    //         to: [checkUser.email],
-    //         firstName: checkUser.firstName,
-    //         key: link,
-    //         template: 'forget',
-    //     };
-    //     await emailService.sendMail(email);
+        let key: string = Math.floor(1000 + Math.random() * 9000).toString();
+        hashing.hash = hash(key);
+        hashing.type = ciphertext;
+        let date = new Date();
+        hashing.createdAt = date;
+        hashing.expiredAt = new Date(date.getTime() + 60 * 24 * 60000);
+        hashing.createdBy = date;
+        hashing.updatedAt = date;
+        hashing.updatedBy = date;
+        let link = `${config.baseURL}/forgot-password?user=${encodeURIComponent(
+            ciphertext,
+        )}&key=${encodeURIComponent(hashing.hash)}`;
 
-    //     await hashRepo.save(hashing);
-    //     return {
-    //         success: true,
-    //         message: authConstant.resetLink,
-    //     };
-    // };
+        const email: IEmail = <IEmail>{
+            isText: false,
+            subject: authConstant.resetPassword,
+            to: [checkUser.email],
+            firstName: checkUser.firstName,
+            key: link,
+            template: 'forget',
+        };
+        await sendMail(email);
 
-    // async verifyForgetHash(user: UserDto) {
-    //     var bytes = CryptoJS.AES.decrypt(user.userHash, 'secret_key');
-    //     var originalText = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        await hashRepo.create(hashing);
+        return {
+            success: true,
+            message: authConstant.resetLink,
+        };
+    };
 
-    //     let checkUser = await userRepo.getOneById(parseInt(originalText));
-    //     if (!checkUser) {
-    //         return { success: false, message: authConstant.notExists };
-    //     }
-    //     // let res = await hashRepo.getByHasingId(user.userHash, user.forgetHash);
+    async verifyForgetHash(user: UserDto) {
+        var originalText = decrypt(user.userHash + config.baseURL);
 
-    //     return { success: true };
-    // };
+        let checkUser = await userRepo.findById(originalText);
+        if (!checkUser) {
+            return { success: false, message: authConstant.notExists };
+        }
 
-    // async resetPassword(user: UserDto) {
-    //     var bytes = CryptoJS.AES.decrypt(user.userHash, 'secret_key');
-    //     var originalText = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        return { success: true };
+    };
 
-    //     let checkUser = await userRepo.getOneById(parseInt(originalText));
-    //     if (!checkUser) {
-    //         return { success: false, message: authConstant.notExists };
-    //     }
-    //     checkUser.password = CryptoJS.SHA256(user.password).toString();
-    //     userRepo.save(checkUser);
-    //     return {
-    //         success: true,
-    //         message: authConstant.passwordUpdate,
-    //     };
-    // };
+    async resetPassword(user: UserDto) {
+        var originalText = decrypt(user.userHash + config.secret_key);
+
+        let checkUser = await userRepo.findById(originalText);
+        if (!checkUser) {
+            return { success: false, message: authConstant.notExists };
+        }
+        checkUser.password = hash(user.password);
+        userRepo.save(checkUser);
+        return {
+            success: true,
+            message: authConstant.passwordUpdate,
+        };
+    };
 
     async getAll() {
         return userRepo.findAll();

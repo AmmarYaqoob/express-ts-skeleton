@@ -26,3 +26,10 @@ export const decrypt = (encryptedText: string) => {
     decrypted += decipher.final("utf8");
     return decrypted;
 };
+
+export const hash = (value: string): string => {
+  return crypto
+    .createHash('sha256')
+    .update(value)
+    .digest('hex');
+};
