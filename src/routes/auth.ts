@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import config from '../config';
+import config from '../config/index';
 import ctrl from '../controllers/users';
 import responseMiddleware from '../middlewares/response';
 
-let prefix =  `${config.baseURL}/auth`;
+let prefix =  `${config.api.baseURL}/auth`;
 
 const router = Router();
 router.post('/login', ctrl.login, responseMiddleware);
