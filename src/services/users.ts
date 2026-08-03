@@ -2,6 +2,7 @@ import * as joi from 'joi';
 import config from '../config/index';
 import AppError from '../middlewares/apperror';
 import { decrypt, encrypt, hash } from '../utils/encryptdecrypt';
+import { comparePassword, hashPassword } from '../utils/password';
 import { IEmail } from '../interfaces/email';
 import { sendMail } from './email';
 import { StatusCodes } from 'http-status-codes';
@@ -22,8 +23,11 @@ class UserService {
         if (!userData) {
             throw new AppError('Invalid email or password', StatusCodes.NOT_FOUND);
         }
-        let password = encrypt(user.password);
-        if (password != userData.password) {
+        const passwordMatches = await comparePassword(
+            user.password,
+            userData.password,
+        );
+        if (!passwordMatches) {
             throw new AppError(
                 'Invalid email or password',
                 StatusCodes.UNAUTHORIZED,
@@ -41,7 +45,7 @@ class UserService {
             var hash = encrypt(JSON.stringify(key) + config.secret_key);
             userData.accountVerificationHash = hash;
             let userDate = await userRepo.save(userData);
-            let userHash = encrypt(JSON.stringify(userDate.id) + config.secret_key);
+            let userHash = encrypt(JSON.stringify(userDate.id));
             let link = `${config.api.baseURL}/sign-in?user=${encodeURIComponent(
                 userHash,
             )}&key=${encodeURIComponent(userData.accountVerificationHash)}`;
@@ -90,7 +94,7 @@ class UserService {
 
         let toSaveUser = await userRepo.create({
             ...user,
-            password: encrypt(user.password),
+            password: await hashPassword(user.password),
             isActive: true,
             isLocked: false,
             isVerified: false,
@@ -100,7 +104,7 @@ class UserService {
         let userDate = await userRepo.save(toSaveUser);
         let key: string = (Math.floor(1000 + Math.random() * 9000).toString() + config.secret_key);
         toSaveUser.accountVerificationHash = encrypt(key);
-        let userHash = encrypt(JSON.stringify(userDate.id) + config.secret_key).toString();
+        let userHash = encrypt(JSON.stringify(userDate.id));
         let link = `${config.api.baseURL}/sign-in?user=${encodeURIComponent(userHash)
             }&key=${encodeURIComponent(toSaveUser.accountVerificationHash)
             }`;
@@ -119,8 +123,8 @@ class UserService {
     }
 
     async verifyUserHash(user: UserDto) {
-        var originalText = decrypt(user.userHash + config.secret_key);
-        let checkUser = await userRepo.findById(originalText);
+        const originalText = decrypt(user.userHash ?? '');
+        let checkUser = await userRepo.findById(JSON.parse(originalText));
         if (!checkUser) {
             return { success: false, message: authConstant.notExists };
         }
@@ -168,7 +172,7 @@ class UserService {
         }
 
         const hashing = new Hashing();
-        var ciphertext = encrypt(JSON.stringify(checkUser.id) + config.secret_key);
+        var ciphertext = encrypt(JSON.stringify(checkUser.id));
 
         let key: string = Math.floor(1000 + Math.random() * 9000).toString();
         hashing.hash = hash(key);
@@ -201,9 +205,9 @@ class UserService {
     };
 
     async verifyForgetHash(user: UserDto) {
-        var originalText = decrypt(user.userHash + config.api.baseURL);
+        const originalText = decrypt(user.userHash ?? '');
 
-        let checkUser = await userRepo.findById(originalText);
+        let checkUser = await userRepo.findById(JSON.parse(originalText));
         if (!checkUser) {
             return { success: false, message: authConstant.notExists };
         }
@@ -212,14 +216,14 @@ class UserService {
     };
 
     async resetPassword(user: UserDto) {
-        var originalText = decrypt(user.userHash + config.secret_key);
+        const originalText = decrypt(user.userHash ?? '');
 
-        let checkUser = await userRepo.findById(originalText);
+        let checkUser = await userRepo.findById(JSON.parse(originalText));
         if (!checkUser) {
             return { success: false, message: authConstant.notExists };
         }
-        checkUser.password = hash(user.password);
-        userRepo.save(checkUser);
+        checkUser.password = await hashPassword(user.password);
+        await userRepo.save(checkUser);
         return {
             success: true,
             message: authConstant.passwordUpdate,

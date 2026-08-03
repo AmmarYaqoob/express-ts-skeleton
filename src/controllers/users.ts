@@ -9,7 +9,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.login;
+      res.locals.data = await userService.login(req.body);
       next();
     },
   );
@@ -20,7 +20,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.signUp;
+      res.locals.data = await userService.signUp(req.body);
       next();
     },
   );
@@ -31,7 +31,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.verifyUserHash;
+      res.locals.data = await userService.verifyUserHash(req.body);
       next();
     },
   );
@@ -42,7 +42,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.verfication;
+      res.locals.data = await userService.verfication(req.body);
       next();
     },
   );
@@ -53,7 +53,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.forgetPassword;
+      res.locals.data = await userService.forgetPassword(req.body);
       next();
     },
   );
@@ -64,7 +64,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.verifyForgetHash;
+      res.locals.data = await userService.verifyForgetHash(req.body);
       next();
     },
   );
@@ -75,7 +75,7 @@ class UserController {
       res: Response,
       next: NextFunction,
     ) => {
-      res.locals.data = userService.resetPassword;
+      res.locals.data = await userService.resetPassword(req.body);
       next();
     },
   );

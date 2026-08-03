@@ -34,6 +34,14 @@ export interface IConfig {
     password: string;
   };
   allowedOrigin: string;
+  smtp: {
+    host: string;
+    port: number;
+    secure: boolean;
+    user: string;
+    pass: string;
+    from: string;
+  };
 }
 
 const config = convict<IConfig>({
@@ -162,6 +170,38 @@ const config = convict<IConfig>({
     format: String,
     env: 'ALLOWED_ORIGIN',
     default: '',
+  },
+  smtp: {
+    host: {
+      format: String,
+      env: 'SMTP_HOST',
+      default: 'smtp.gmail.com',
+    },
+    port: {
+      format: 'port',
+      env: 'SMTP_PORT',
+      default: 587,
+    },
+    secure: {
+      format: Boolean,
+      env: 'SMTP_SECURE',
+      default: false,
+    },
+    user: {
+      format: String,
+      env: 'SMTP_USER',
+      default: '',
+    },
+    pass: {
+      format: String,
+      env: 'SMTP_PASS',
+      default: '',
+    },
+    from: {
+      format: String,
+      env: 'SMTP_FROM',
+      default: '',
+    },
   },
 });
 

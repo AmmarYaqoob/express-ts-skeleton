@@ -5,7 +5,12 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "db:create": "sequelize-cli db:create --env local",
+    "db:migrate": "sequelize-cli db:migrate --env local",
+    "db:seed": "sequelize-cli db:seed:all --env local",
+    "db:setup": "npm run db:create && npm run db:migrate && npm run db:seed",
+    "db:undo": "sequelize-cli db:migrate:undo:all --env local"
   },
   "keywords": [],
   "author": "",
@@ -22,16 +27,21 @@
     "http-status-codes": "^2.3.0",
     "joi": "^18.2.3",
     "morgan": "^1.11.0",
+    "mustache": "^4.2.0",
     "mysql2": "^3.23.1",
+    "nodemailer": "^9.0.3",
     "sequelize": "^6.37.8",
     "sequelize-typescript": "^2.1.6"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/convict": "^6.1.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
+    "@types/mustache": "^4.2.6",
     "@types/node": "^26.1.1",
+    "@types/nodemailer": "^8.0.1",
     "sequelize-cli": "^6.6.5",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
