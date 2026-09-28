@@ -1,33 +1,55 @@
 import crypto from 'crypto';
 import config from '../config';
 
-const algorithm = 'aes-256-cbc';
+const algorithm = 'aes-256-gcm';
+const REJECTED_KEYS = new Set(['', 'secret__sha__key']);
 
-function getKeyAndIv() {
-  const key = crypto.createHash('sha256').update(config.secret_key).digest();
-  const iv = crypto
-    .createHash('sha256')
-    .update(`${config.secret_key}:iv`)
-    .digest()
-    .subarray(0, 16);
+function getKey(): Buffer {
+  if (REJECTED_KEYS.has(config.secret_key)) {
+    throw new Error(
+      'secret_key must be a long random value set in the environment',
+    );
+  }
 
-  return { key, iv };
+  return crypto.createHash('sha256').update(config.secret_key).digest();
 }
 
 export const encrypt = (text: string): string => {
-  const { key, iv } = getKeyAndIv();
-  const cipher = crypto.createCipheriv(algorithm, key, iv);
-  let encrypted = cipher.update(text, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return encrypted;
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv(algorithm, getKey(), iv);
+  const encrypted = Buffer.concat([
+    cipher.update(text, 'utf8'),
+    cipher.final(),
+  ]);
+  const tag = cipher.getAuthTag();
+
+  return [
+    iv.toString('hex'),
+    tag.toString('hex'),
+    encrypted.toString('hex'),
+  ].join(':');
 };
 
-export const decrypt = (encryptedText: string): string => {
-  const { key, iv } = getKeyAndIv();
-  const decipher = crypto.createDecipheriv(algorithm, key, iv);
-  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+export const decrypt = (payload: string): string => {
+  const [ivHex, tagHex, dataHex] = payload.split(':');
+
+  if (!ivHex || !tagHex || !dataHex) {
+    throw new Error('Invalid ciphertext');
+  }
+
+  const decipher = crypto.createDecipheriv(
+    algorithm,
+    getKey(),
+    Buffer.from(ivHex, 'hex'),
+  );
+  decipher.setAuthTag(Buffer.from(tagHex, 'hex'));
+
+  const decrypted = Buffer.concat([
+    decipher.update(Buffer.from(dataHex, 'hex')),
+    decipher.final(),
+  ]);
+
+  return decrypted.toString('utf8');
 };
 
 export const hash = (value: string): string => {

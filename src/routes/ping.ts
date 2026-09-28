@@ -3,7 +3,7 @@ import config from '../config';
 import pingCtrl from '../controllers/ping';
 import responseMiddleware from '../middlewares/response';
 
-let prefix =  `${config.baseURL}/ping`;
+let prefix =  `${config.api.baseURL}/ping`;
 const router = Router();
 
 router.get('/', pingCtrl.ping, responseMiddleware);

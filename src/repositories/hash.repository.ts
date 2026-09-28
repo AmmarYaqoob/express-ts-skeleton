@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Hashing, HashingCreationAttributes } from '../database/entities/hashing.model';
 
 class HashRepository {
@@ -42,6 +43,26 @@ class HashRepository {
     if (!record) return null;
 
     return record.update(data);
+  }
+
+  async findActiveByUserAndType(
+    userId: string,
+    type: string,
+  ): Promise<Hashing | null> {
+    return Hashing.findOne({
+      where: {
+        userId,
+        type,
+        expiredAt: { [Op.gt]: new Date() },
+      },
+      order: [['createdAt', 'DESC']],
+    });
+  }
+
+  async deleteByUserAndType(userId: string, type: string): Promise<void> {
+    await Hashing.destroy({
+      where: { userId, type },
+    });
   }
 
   async delete(id: string): Promise<boolean> {

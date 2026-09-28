@@ -54,7 +54,7 @@ const config = convict<IConfig>({
   secret_key: {
     format: String,
     env: 'secret_key',
-    default: 'secret__sha__key',
+    default: '',
   },
   server: {
     port: {

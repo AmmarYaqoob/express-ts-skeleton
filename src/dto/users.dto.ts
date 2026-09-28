@@ -14,4 +14,6 @@ export interface UserDto {
   isVerified?: boolean;
   lockedReason?: string;
   userHash?: string;
+  userId?: string;
+  token?: string;
 }

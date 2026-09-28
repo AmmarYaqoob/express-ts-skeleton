@@ -1,3 +1,6 @@
+import sequelize from '../database';
+
 export const bootstrap = async (): Promise<void> => {
-  console.log('Bootstrapping application...');
+  await sequelize.authenticate();
+  console.log('Database connection established');
 };

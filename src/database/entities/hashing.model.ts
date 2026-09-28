@@ -11,6 +11,7 @@ import { Optional } from 'sequelize';
 
 export interface HashingAttributes {
   id: string;
+  userId: string | null;
   type: string;
   hash: string;
   expiredAt: Date;
@@ -23,7 +24,7 @@ export interface HashingAttributes {
 export interface HashingCreationAttributes
   extends Optional<
     HashingAttributes,
-    'id' | 'updatedAt' | 'createdBy' | 'updatedBy'
+    'id' | 'userId' | 'updatedAt' | 'createdBy' | 'updatedBy'
   > {}
 
 @Table({
@@ -38,6 +39,10 @@ export class Hashing extends Model<
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
   declare id: string;
+
+  @AllowNull(true)
+  @Column(DataType.UUID)
+  declare userId: string | null;
 
   @AllowNull(false)
   @Column(DataType.STRING)

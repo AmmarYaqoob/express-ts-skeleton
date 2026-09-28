@@ -46,9 +46,9 @@ class UserRepository {
     });
   };
 
-  async save(users: any) {
-    return await users.update();
-  };
+  async save(user: User): Promise<User> {
+    return user.save();
+  }
 
   async userVerfication(user: any) {
     return User.findOne({
